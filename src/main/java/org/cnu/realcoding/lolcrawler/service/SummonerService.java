@@ -1,7 +1,10 @@
 package org.cnu.realcoding.lolcrawler.service;
 
+import lombok.extern.slf4j.Slf4j;
 import org.cnu.realcoding.lolcrawler.domain.Summoner;
+import org.cnu.realcoding.lolcrawler.repository.SummonerRepository;
 import org.json.simple.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;
@@ -14,9 +17,14 @@ import java.net.URLEncoder;
 import org.json.simple.parser.JSONParser;
 
 @Service
+@Slf4j
 public class SummonerService {
 
     private Summoner summoner = new Summoner();
+
+    //DB작업을 수행할 SummonerRepository 필드를 선언한다.
+    @Autowired
+    private SummonerRepository summonerRepository;
 
     public Summoner getInfo(String name) {
 
@@ -49,6 +57,8 @@ public class SummonerService {
 
                 JSONObject jsonObj = (JSONObject) jsonParse.parse(line);
                 encryptedId = (String)jsonObj.get("id");
+
+
             }
             br.close();
 
