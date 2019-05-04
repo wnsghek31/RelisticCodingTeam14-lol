@@ -67,4 +67,50 @@ public class SummonerService {
         return encryptedId;
     }
 
+    public void getSummonerInfo(String encryptedId){
+        BufferedReader in = null;
+        String API = "RGAPI-bbb84869-5e00-4eac-b360-f583f85bcb8d";
+
+        try{
+
+            String urlString = "https://kr.api.riotgames.com/lol/league/v4/positions/by-summoner/" + URLEncoder.encode(encryptedId,"UTF-8") +"?api_key=" + API;
+            System.out.println(urlString);
+
+            URL url = new URL(urlString);
+            URLConnection conn = url.openConnection();
+            BufferedReader br = null;
+
+            br = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
+
+            String line = null;
+            StringBuffer bfStr = new StringBuffer();
+
+            JSONParser jsonParse = new JSONParser();
+
+            while ((line = br.readLine()) != null) {
+                System.out.println(line);
+                line = line.substring(1,line.length()-1);
+                JSONObject jsonObj = (JSONObject) jsonParse.parse(line);
+
+                summoner.name = (String)jsonObj.get("summonerName");
+                summoner.leagueName = (String)jsonObj.get("LeagueName");
+                summoner.queueType = (String)jsonObj.get("queueType");
+                summoner.position = (String)jsonObj.get("position");
+                summoner.tier = (String)jsonObj.get("tier");
+                summoner.rank = (String)jsonObj.get("rank");
+                summoner.points = (long)jsonObj.get("leaguePoints");
+                summoner.wins = (long)jsonObj.get("wins");
+                summoner.losses = (long)jsonObj.get("losses");
+
+
+                // Summoner class에 전체를 넣는것만 구현하면됨.  6
+//                summoner.name = "QWER";
+
+
+            }
+            br.close();
+
+        }catch(Exception e) { e.printStackTrace(); }
+        System.out.println(summoner.name);
+    }
 }
