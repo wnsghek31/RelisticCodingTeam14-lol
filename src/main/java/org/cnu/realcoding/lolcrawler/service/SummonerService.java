@@ -1,7 +1,6 @@
 package org.cnu.realcoding.lolcrawler.service;
 
 import lombok.extern.slf4j.Slf4j;
-import org.cnu.realcoding.lolcrawler.domain.Summoner;
 import org.cnu.realcoding.lolcrawler.repository.SummonerRepository;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
