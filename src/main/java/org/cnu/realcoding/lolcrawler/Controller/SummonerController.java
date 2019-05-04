@@ -1,6 +1,7 @@
 package org.cnu.realcoding.lolcrawler.Controller;
 
 
+import org.cnu.realcoding.lolcrawler.domain.Summoner;
 import org.cnu.realcoding.lolcrawler.service.SummonerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
