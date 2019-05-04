@@ -107,15 +107,17 @@ public class SummonerService {
 //                summoner.name = "QWER";
 
                 if(checkSummonerInfoByName(summoner.name)) {
+                    System.out.println("있어");
                     //update(summoner)
                 }
                 else {
+                    System.out.println("없어");
                     //insert(summoner)
                 }
                 //DB에 API를 통해 받아온 Summoner 객체를 저장하고
                 //저장되었으면 로그를 찍는다
-                Summoner insertedSummoner = summonerRepository.insertSummoner(summoner);
-                log.info("Summoner has inserted successfully. Summoner : {}", insertedSummoner);
+                //Summoner insertedSummoner = summonerRepository.insertSummoner(summoner);
+                //log.info("Summoner has inserted successfully. Summoner : {}", insertedSummoner);
             }
             br.close();
 
@@ -123,7 +125,16 @@ public class SummonerService {
         System.out.println(summoner.name);
     }
 
+    //소환사의 정보가 있는지 없는지를 소환사의 이름으로 검색합니다.
     public boolean checkSummonerInfoByName(String name) {
-        return false;
+
+        Summoner findedSummoner = summonerRepository.findSummoner(name);
+
+        if(findedSummoner == null) {
+            return false;
+        }
+        else {
+            return true;
+        }
     }
 }
