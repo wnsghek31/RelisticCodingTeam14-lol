@@ -106,7 +106,10 @@ public class SummonerService {
                 // Summoner class에 전체를 넣는것만 구현하면됨.  6
 //                summoner.name = "QWER";
 
-
+                //DB에 API를 통해 받아온 Summoner 객체를 저장하고
+                //저장되었으면 로그를 찍는다
+                Summoner insertedSummoner = summonerRepository.insertSummoner(summoner);
+                log.info("Summoner has inserted successfully. Summoner : {}", insertedSummoner);
             }
             br.close();
 
