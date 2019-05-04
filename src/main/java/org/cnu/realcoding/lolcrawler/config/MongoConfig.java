@@ -11,7 +11,7 @@ public class MongoConfig {
     public MongoTemplate createMongoTemplate() {
         //MongoDB 받아오는 Config 설정
         MongoClient mongoClient = new MongoClient("localhost", 27017);
-        String databaseName = "LegueOfLegend";
+        String databaseName = "LeagueOfLegend";
         return new MongoTemplate(mongoClient, databaseName);
     }
 }

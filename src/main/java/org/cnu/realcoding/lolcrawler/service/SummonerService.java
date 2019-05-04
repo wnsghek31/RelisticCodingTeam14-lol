@@ -93,7 +93,7 @@ public class SummonerService {
                 JSONObject jsonObj = (JSONObject) jsonParse.parse(line);
 
                 summoner.name = (String)jsonObj.get("summonerName");
-                summoner.leagueName = (String)jsonObj.get("LeagueName");
+                summoner.leagueName = (String)jsonObj.get("leagueName");
                 summoner.queueType = (String)jsonObj.get("queueType");
                 summoner.position = (String)jsonObj.get("position");
                 summoner.tier = (String)jsonObj.get("tier");
@@ -131,7 +131,7 @@ public class SummonerService {
 
     //소환사의 정보를 업데이트하는 메소드 생성
     public void updateSummoner(Summoner summoner) {
-        
+        summonerRepository.updateSummoner(summoner.name, summoner);
     }
 
     //소환사의 정보를 추가하는 메소드 생성
