@@ -35,14 +35,14 @@ public class SummonerRepository {
 
         Update update = new Update();
 
-        update.set("leagueName", newSummoner.leagueName);
-        update.set("queueType", newSummoner.queueType);
-        update.set("position", newSummoner.position);
-        update.set("tier", newSummoner.tier);
-        update.set("rank", newSummoner.rank);
-        update.set("points", newSummoner.points);
-        update.set("wins", newSummoner.wins);
-        update.set("losses", newSummoner.losses);
+        update.set("leagueName", newSummoner.getLeagueName());
+        update.set("queueType", newSummoner.getQueueType());
+        update.set("position", newSummoner.getPosition());
+        update.set("tier", newSummoner.getTier());
+        update.set("rank", newSummoner.getRank());
+        update.set("points", newSummoner.getPoints());
+        update.set("wins", newSummoner.getWins());
+        update.set("losses", newSummoner.getLosses());
 
         mongoTemplate.updateMulti(query, update, "summoner");
 

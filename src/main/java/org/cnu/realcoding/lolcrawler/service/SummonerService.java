@@ -20,6 +20,7 @@ import org.json.simple.parser.JSONParser;
 @Slf4j
 public class SummonerService {
 
+    static final String API = "RGAPI-bbb84869-5e00-4eac-b360-f583f85bcb8d";
     private Summoner summoner = new Summoner();
 
     //DB작업을 수행할 SummonerRepository 필드를 선언한다.
@@ -33,17 +34,25 @@ public class SummonerService {
         return summoner;
     }
 
+    public URLConnection connectTo(String url , String name){
+        try{
+            String urlString = url + URLEncoder.encode(name,"UTF-8").replace("+", "%20") +"?api_key=" + API;
+            System.out.println(urlString);
+
+            URL connectedUrl = new URL(urlString);
+            return connectedUrl.openConnection();
+        }catch (Exception e){
+            return null;
+        }
+    }
+
     public String getEncryptedID(String name) {
         BufferedReader in = null;
-        String API = "RGAPI-bbb84869-5e00-4eac-b360-f583f85bcb8d";
         String encryptedId = "";
         try{
 
-            String urlString = "https://kr.api.riotgames.com/lol/summoner/v4/summoners/by-name/" + URLEncoder.encode(name,"UTF-8").replace("+", "%20") +"?api_key=" + API;
-            System.out.println(urlString);
+            URLConnection conn = connectTo("https://kr.api.riotgames.com/lol/summoner/v4/summoners/by-name/",name);
 
-            URL url = new URL(urlString);
-            URLConnection conn = url.openConnection();
             BufferedReader br = null;
 
             br = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
@@ -69,7 +78,6 @@ public class SummonerService {
 
     public void getSummonerInfo(String encryptedId){
         BufferedReader in = null;
-        String API = "RGAPI-bbb84869-5e00-4eac-b360-f583f85bcb8d";
 
         try{
 
@@ -92,18 +100,18 @@ public class SummonerService {
                 line = line.substring(1,line.length()-1);
                 JSONObject jsonObj = (JSONObject) jsonParse.parse(line);
 
-                summoner.name = (String)jsonObj.get("summonerName");
-                summoner.leagueName = (String)jsonObj.get("leagueName");
-                summoner.queueType = (String)jsonObj.get("queueType");
-                summoner.position = (String)jsonObj.get("position");
-                summoner.tier = (String)jsonObj.get("tier");
-                summoner.rank = (String)jsonObj.get("rank");
-                summoner.points = (long)jsonObj.get("leaguePoints");
-                summoner.wins = (long)jsonObj.get("wins");
-                summoner.losses = (long)jsonObj.get("losses");
+                summoner.setName((String)jsonObj.get("summonerName"));
+                summoner.setLeagueName((String)jsonObj.get("leagueName"));
+                summoner.setQueueType((String)jsonObj.get("queueType"));
+                summoner.setPosition((String)jsonObj.get("position"));
+                summoner.setTier((String)jsonObj.get("tier"));
+                summoner.setRank((String)jsonObj.get("rank"));
+                summoner.setPoints((long)jsonObj.get("leaguePoints"));
+                summoner.setWins((long)jsonObj.get("wins"));
+                summoner.setLosses((long)jsonObj.get("losses"));
 
 
-                if(checkSummonerInfoByName(summoner.name)) {
+                if(checkSummonerInfoByName(summoner.getName())) {
                     updateSummoner(summoner);
                 }
                 else {
@@ -131,7 +139,7 @@ public class SummonerService {
 
     //소환사의 정보를 업데이트하는 메소드 생성
     public void updateSummoner(Summoner summoner) {
-        summonerRepository.updateSummoner(summoner.name, summoner);
+        summonerRepository.updateSummoner(summoner.getName(), summoner);
     }
 
     //소환사의 정보를 추가하는 메소드 생성
